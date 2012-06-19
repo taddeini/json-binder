@@ -5,7 +5,6 @@ JSON Binder is a jQuery plugin that will convert form input elements into a gene
 ## Use
 ``` html
 
-// Given the following form and plugin execution...
 <form>
   <input type="text" name="firstName" value="Fred" />
   <input type="checkbox" name="isActiveMember" checked />
@@ -13,11 +12,12 @@ JSON Binder is a jQuery plugin that will convert form input elements into a gene
 
 <script>
   var result = $("form").JSONBind();
-
-  // ...will result in the following object value
-  {
-    "firstName": "Fred",
-    "isActiveMember": true
-  }
+  
+  /* output
+  *  {
+  *    "firstName": "Fred",
+  *    "isActiveMember": true
+  *  }
+  */
 </script>
 ```
