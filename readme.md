@@ -13,11 +13,11 @@ JSON Binder is a jQuery plugin that will convert form input elements into a gene
 <script>
   var result = $("form").JSONBind();
   
-  /* output
-  *  {
-  *    "firstName": "Fred",
-  *    "isActiveMember": true
-  *  }
-  */
+  // result
+  {
+    "firstName": "Fred",
+    "isActiveMember": true
+  }
+  
 </script>
 ```
