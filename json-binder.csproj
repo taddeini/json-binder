@@ -57,20 +57,19 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="css\qunit.css" />
+    <Content Include="example\sample.htm" />
+    <Content Include="json-binder.js" />
+    <Content Include="libs\qunit.js" />
+    <Content Include="tests\json-binder.tests.js" />
+    <Content Include="tests\tests.htm" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
+    <Content Include="readme.md" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
