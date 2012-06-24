@@ -60,6 +60,7 @@
     <Content Include="css\qunit.css" />
     <Content Include="example\sample.htm" />
     <Content Include="json-binder.js" />
+    <Content Include="libs\jquery-1.7.2.js" />
     <Content Include="libs\qunit.js" />
     <Content Include="tests\json-binder.tests.js" />
     <Content Include="tests\tests.htm" />

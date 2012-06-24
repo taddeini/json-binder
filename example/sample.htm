@@ -1,13 +1,70 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <title></title>
+    <title>JSON Binder Example</title>
+
+    <style type="text/css">
+      div {display:table-cell;padding-right:2em;}
+    </style>
+
+    <script type="text/javascript" src="../libs/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../json-binder.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        $("#bind").click(function () {
+          var json = $("form").JSONBind();
+          // Pretty up the format a bit for display purposes
+          $('#output').text(JSON.stringify(JSON.parse(json), null, "  "));
+        });
+      });
+    </script>
   </head>
   <body>
     <form>
-      <input type="radio" name="foo" value="bar" />Bar<br />
-      <input type="radio" name="foo" value="fizz" />Fizz<br />
-      <input type="radio" name="foo" value="bin" />Bin<br />
+      <div>
+        <h2>radios</h2>
+        <p>
+          <input type="radio" name="radios" value="bar" />Bar<br />
+          <input type="radio" name="radios" value="fizz" />Fizz<br />
+          <input type="radio" name="radios" value="bin" />Bin<br />
+        </p>
+      </div>
+      <div>
+        <h2>dropdown</h2>
+        <p>
+          <select name="dropdown">
+            <option value="fizz">fizz</option>
+            <option value="bin">bin</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </p>
+      </div>
+      <div>
+        <h2>multi_select</h2>
+        <p>
+          <select name="multi_select" multiple="multiple">
+            <option value="fizz">fizz</option>
+            <option value="bin">bin</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </p>
+      </div>
+      <div>
+        <h2>textbox</h2>
+        <p>
+          <input name="textbox" type="text" />
+        </p>
+      </div>
+      <div>
+        <h2>textarea</h2>
+        <p>
+          <textarea name="textarea" rows="5" cols="20"></textarea>
+        </p>
+      </div>
+      <input type="button" id="bind" value="Bind" />
     </form>
+    <pre id="output" />
   </body>
 </html>

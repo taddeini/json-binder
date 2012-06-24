@@ -1,60 +1,99 @@
 ﻿(function ($) {
-  // Namespace for input binding definitions
-  var binding = {};
-
-  // Binding definition for checkboxes
-  binding.checkbox = function ($checkbox) {
-    var _name = $checkbox.attr("name"),
-        _hasValue = typeof _name !== "undefined",
-        _value = $checkbox.is(":checked") ? true : false;
-
-    return {
-      name: _name,
-      hasValue: _hasValue,
-      value: _value
-    }
-  };
-
-  /// Binding definition for radios
-  binding.radio = function ($radio) {
-    var _name = $radio.attr("name"),
-        _hasValue = typeof _name !== "undefined",
-        _value = $radio.is(":checked") ? $radio.val() : "";
-
-    return {
-      name: _name,
-      hasValue: _hasValue,
-      value: _value
-    }
-  };
+  "use strict";
+  // Namespace for input binder definitions
+  var binders = {};
 
   $.fn.JSONBind = function () {
     // Stores the JSON object to be returned
     var result = {},
-    // Array that will hold any input bindings that need to be run
-    active_bindings = [],
+    // Array that will hold any input binders that need to be run
+      activeBinders = [],
     // Gets the jQuery items for any given inputs
-    $inputs = this.find("input");
+      $inputs = this.find("input, select, textarea");
 
     // For each input, determine if a binding definition exists, and if it
     // does create and store it
     $inputs.each(function () {
-      var $this = $(this);
-      var binder = binding[$this.attr("type")];
+      var $this = $(this),
+        binder = binders[$this.attr("type")] || binders[this.nodeName.toLowerCase()];
 
       if (typeof binder !== "undefined") {
-        active_bindings.push(binder($this));
+        activeBinders.push(binder($this, result));
       }
     });
 
     // For any binding definitions that were created, run them to get the
     // input data to the raw JSON values
-    $.each(active_bindings, function (index, binder) {
-      if (binder.hasValue) {
-        result[binder.name] = binder.value;
+    $.each(activeBinders, function (index, binder) {
+      if (binder.canGetValue()) {
+        result[binder.forProperty()] = binder.inputValue();
       }
     });
-    
-    return result;
+
+    return JSON.stringify(result);
   };
-})(jQuery);
+
+  binders.input = binders.hidden = binders.text = binders.password = binders.select = binders.textarea = function ($input) {
+    function getName() {
+      return $input.attr("name");
+    }
+
+    return {
+      forProperty: function () {
+        return getName();
+      },
+      canGetValue: function () {
+        return typeof getName() !== "undefined";
+      },
+      inputValue: function () {
+        return $input.val();
+      }
+    };
+  };
+
+  binders.checkbox = function ($checkbox) {
+    function getName() {
+      return $checkbox.attr("name");
+    }
+
+    return {
+      forProperty: function () {
+        return getName();
+      },
+      canGetValue: function () {
+        return typeof getName() !== "undefined";
+      },
+      inputValue: function () {
+        return $checkbox.is(":checked") ? true : false;
+      }
+    };
+  };
+
+  binders.radio = function ($radio, result) {
+    function getName() {
+      return $radio.attr("name");
+    }
+
+    function getThisValue() {
+      return $radio.is(":checked") ? $radio.val() : "";
+    }
+
+    function getFullValue() {
+      var property = getName();
+      var notAlreadySet = typeof result[property] === "undefined" || result[property].trim() === "";
+      return notAlreadySet ? getThisValue() : result[property];
+    }
+
+    return {
+      forProperty: function () {
+        return getName();
+      },
+      canGetValue: function () {
+        return typeof getName() !== "undefined";
+      },
+      inputValue: function () {
+        return getFullValue();
+      }
+    };
+  };
+}(jQuery));
