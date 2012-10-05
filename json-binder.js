@@ -11,8 +11,8 @@
     // Gets the jQuery items for any given inputs
       $inputs = this.find("input, select, textarea");
 
-    // For each input, determine if a binding definition exists, and if it
-    // does create and store it
+    // For each input, determine if a binding definition exists. If it
+    // doesn't, create and store it
     $inputs.each(function () {
       var $this = $(this),
         binder = binders[$this.attr("type")] || binders[this.nodeName.toLowerCase()];
